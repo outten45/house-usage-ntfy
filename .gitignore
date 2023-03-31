@@ -1,0 +1,8 @@
+/.direnv/
+/.mix_deps/
+*.db
+*.db-shm
+*.db-wal
+/main
+/house-usage-ntfy 
+/usage.conf

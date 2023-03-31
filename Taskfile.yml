@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  watch:
+    cmds:
+      - >
+        fish -c 'while inotifywait -e close_write main.go; echo "------------------"; go run main.go; echo "--------------------"; end'
+    silent: true
+  build:
+    cmds:
+      - go build -o house-usage-ntfy -v main.go 
