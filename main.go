@@ -30,11 +30,12 @@ type argsConfig struct {
 	NtfyBase *string
 	TopicId  *string
 	DbFile   *string
+	KW       *float64
 }
 
 func (ac *argsConfig) valid() bool {
 	valid := true
-	if *ac.TopicId == "" && *ac.DbFile == "" {
+	if *ac.TopicId == "" || *ac.DbFile == "" || *ac.KW <= 0.5 {
 		valid = false
 	}
 	return valid
@@ -50,6 +51,7 @@ func parseArgs(args []string) *argsConfig {
 		NtfyBase: flag.String("ntfybase", "https://ntfy.sh", "base domain for Nfty"),
 		TopicId:  flag.String("topicid", "", "the topic id from ntfy"),
 		DbFile:   flag.String("db", "", "path to database file"),
+		KW:       flag.Float64("kw", 0.0, "the minimum KW to start notifying"),
 	}
 	flag.String(flag.DefaultConfigFlagname, "", "path to config file")
 	flag.Parse()
@@ -125,7 +127,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// fmt.Printf(">>> measurement from get: %+v\n", measurement)
-	if measurement.Time.Valid && measurement.Value.Float64 >= 3.0 {
+	if measurement.Time.Valid && measurement.Value.Float64 >= *ac.KW {
 		msg := fmt.Sprintf("KWh sent: %.f", measurement.Value.Float64)
 		sendNtfy(ac.ntfyURL(), "Sent to Apex ☀️", msg)
 	}
