@@ -2,12 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"strings"
-	// "database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/glebarez/go-sqlite"
@@ -93,7 +92,6 @@ select
     mm.time,
     max(mm.value - mm.min_value) as value
 from ms as mm
--- where label = 'electric-recv'
 where label = $1
 order by mm.time asc
 `
