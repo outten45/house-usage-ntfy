@@ -8,4 +8,4 @@ tasks:
     silent: true
   build:
     cmds:
-      - go build -o house-usage-ntfy -v main.go 
+      - go build -o house-usage-ntfy -v 
